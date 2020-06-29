@@ -50,3 +50,4 @@
   + _recursions: 记录持有ObjectMonitor对象线程获取锁的次数
   + _count: 
 
+- 锁升级

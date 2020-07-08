@@ -86,6 +86,32 @@
 
   尾插法会保证了本来的顺序，所以就不会出现循环链表的问题。
 
+  ~~~java
+  
+  void transfer(Entry[] newTable)
+  {
+      Entry[] src = table;
+      int newCapacity = newTable.length;
+      //下面这段代码的意思是：
+      //  从OldTable里摘一个元素出来，然后放到NewTable中
+      for (int j = 0; j < src.length; j++) {
+          Entry<K,V> e = src[j];
+          if (e != null) {
+              src[j] = null;
+              do {
+                  Entry<K,V> next = e.next;
+                  int i = indexFor(e.hash, newCapacity);
+                  e.next = newTable[i];
+                  newTable[i] = e;
+                  e = next;
+              } while (e != null);
+          }
+      }
+  }
+  ~~~
+
+  
+
 + 特点
 
   1. 线程不安全

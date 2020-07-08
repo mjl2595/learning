@@ -1,6 +1,6 @@
 ## ArrayDeque
 
-ArrayDeque是基于数组来实现的双向队列。
+ArrayDeque是基于数组来实现的双向队列。 (默认大小也是16)
 
 + 存储结构
 

@@ -41,7 +41,7 @@
 
 + join
 
-  这个方法是Thread类的实例方法，调用这个方法会让当前的线程等待被调用join方法的线程完成了，才继续往下执行
+  这个方法是Thread类的实例方法，调用这个方法会让当前的线程等待调用join方法的线程完成了，才继续往下执行
 
   ```java
   public static void main(String...args)  throws InterruptedException {

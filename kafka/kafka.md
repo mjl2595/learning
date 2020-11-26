@@ -41,7 +41,10 @@
 
     kafka的其他组件能通过这个这个节点来获取到改broker的情况。
 
-  + 每个broker启动以后，都会尝试创建/controller这个临时节点，如果能创建成功，这个broker就回成为controller（正常情况只有是第一个启动的broker会创建个成功，别的都会失败，因为节点已经存在）。同时所有的broker都会监控这个节点。当监控到这个临时节点被删除，所有的都会再次尝试去创建这个节点，创建成功的broker就会成为新的controller。新的controller被选出来以后，/controller_epoch永久节点的值会+1，当一个broker接收到来自controller请求里面的epoch值小于这个节点当前的值，就意味着这是个过期的请求。
+  + 每个broker启动以后，都会尝试创建/controller这个临时节点，如果能创建成功，这个broker就回成为controller
+  （正常情况只有是第一个启动的broker会创建个成功，别的都会失败，因为节点已经存在）。同时所有的broker都会监控这个节点。
+  当监控到这个临时节点被删除，所有的都会再次尝试去创建这个节点，创建成功的broker就会成为新的controller。新的controller被选出来以后，
+  /controller_epoch永久节点的值会+1，当一个broker接收到来自controller请求里面的epoch值小于这个节点当前的值，就意味着这是个过期的请求。
 
   + 当controller发现一个broker离开了集群（通过监控zk中对应的临时节点），会对在分区leader位于这个broker内的分区进行新的leader选着，这个过程结束后，会把结果发送给所有的broker。
 
@@ -246,9 +249,11 @@ partition0-->consumer1
 
   + 消息存储
 
-    每条消息都有一个offset来表示它在分区中的偏移量。每个partition会对应到broker中的一个目录，这个目录的命名规则为<topic_name>_<partition_id>。例如，share-test-topic这个主题的两个分区的文件夹分别是share-test-topic-0、share-test-topic-1。
+    每条消息都有一个offset来表示它在分区中的偏移量。每个partition会对应到broker中的一个目录，这个目录的命名规则为<topic_name>_<partition_id>。
+    例如，share-test-topic这个主题的两个分区的文件夹分别是share-test-topic-0、share-test-topic-1。
 
-    实际存储数据的是log文件，这个log文件会被分成多个段（LogSegement）。每个分段会包含一个log文件(日志文件)，一个index文件(索引文件)和一个timeindex文件(时间索引文件)。分段文件的命名规则是按照顺序的，取得是前一个分段文件最后一个offset，例如
+    实际存储数据的是log文件，这个log文件会被分成多个段（LogSegement）。每个分段会包含一个log文件(日志文件)，一个index文件(索引文件)和一个timeindex文件(时间索引文件)。
+    分段文件的命名规则是按照顺序的，取得是前一个分段文件最后一个offset，例如
     第一个文件：00000000000000000000.log
 
     第二个文件：0000000000000005376.log(假设第一个文件的最后一个offset为5376)
